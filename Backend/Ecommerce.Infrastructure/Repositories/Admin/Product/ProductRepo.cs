@@ -7,9 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Ecommerce.Infrastructure.Repositories.Product
 {
@@ -64,7 +66,6 @@ namespace Ecommerce.Infrastructure.Repositories.Product
                     Description = product.Description,
                     Prize = product.Prize,
                     Stock = product.Stock,
-                    IsAvailable = product.IsAvailable,
                     ImageUrl = product.ImageUrl,
 
 
@@ -462,6 +463,41 @@ namespace Ecommerce.Infrastructure.Repositories.Product
                 }
             }
             return result;
+        }
+
+        public async Task<List<ProductDto>> GetProductsPaged(int pageNumber, int pageSize, string search, string filterType)
+        {
+            List<ProductDto> products = new List<ProductDto>();
+
+            using (SqlConnection conn = new SqlConnection(_cs))
+            {
+                await conn.OpenAsync();
+                SqlCommand cmd = new SqlCommand("usp_GetProductsPaged", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
+                cmd.Parameters.AddWithValue("@PageSize", pageSize);
+                cmd.Parameters.AddWithValue("@Search", string.IsNullOrEmpty(search) ? null : search);
+                cmd.Parameters.AddWithValue("@FilterType", filterType);
+
+
+                SqlDataReader reader = await cmd.ExecuteReaderAsync();
+
+                while (await reader.ReadAsync())
+                {
+                    products.Add(new ProductDto
+                    {
+                        Id = Convert.ToInt32(reader["ProductId"]),
+                        Name = reader["ProductName"].ToString(),
+                        Prize = Convert.ToDecimal(reader["Prize"]),
+                        Stock = Convert.ToInt32(reader["Stock"]),
+                        Category = reader["Category"].ToString(),
+                        ImageUrl = reader["Image"].ToString(),
+                        TotalRecords = Convert.ToInt32(reader["TotalRecords"])
+                    });
+                }
+                return products;
+            }
         }
     }
 }

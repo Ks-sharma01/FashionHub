@@ -185,6 +185,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dtos\Product\FilterProductDto.cs" />
     <Compile Include="Dtos\Product\OrderDto.cs" />
     <Compile Include="Dtos\Product\OrdersWithItemsDto.cs" />
     <Compile Include="Dtos\Product\ProductDto.cs" />

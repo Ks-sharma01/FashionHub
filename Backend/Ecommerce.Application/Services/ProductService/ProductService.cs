@@ -224,5 +224,17 @@ namespace Ecommerce.Application.Services.ProductService
             }
         }
 
+        public async Task<List<ProductDto>> GetProductsPaged(int pageNumber, int pageSize, string search, string filterType)
+        {
+            try
+            {
+                return await _productRepo.GetProductsPaged(pageNumber, pageSize, search, filterType);
+            }
+            catch( Exception )
+            {
+                throw;
+            }
+        }
+
     }
 }

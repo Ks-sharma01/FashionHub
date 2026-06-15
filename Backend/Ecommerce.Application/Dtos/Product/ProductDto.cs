@@ -22,15 +22,18 @@ namespace Ecommerce.Application.Dtos.Product
 
         public decimal Prize { get; set; }
 
-        public bool IsAvailable { get; set; }
-
         public int Stock {  get; set; }
 
         public IFormFile ImagePath { get; set; }
 
         public string ImageUrl { get; set; }
 
+        public int TotalRecords { get; set; }
 
-        
+
+
+
+
+
     }
 }
