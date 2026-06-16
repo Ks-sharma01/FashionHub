@@ -24,6 +24,14 @@ namespace Ecommerce.Application.Dtos.Product
 
         public int Stock {  get; set; }
 
+        public string Status { get; set; }
+
+        public DateTime? OrderDate { get; set; } = null;
+
+        public DateTime? DeliveredDate { get; set; } = null;
+
+        public string PaymentMethod { get; set; }
+
         public IFormFile ImagePath { get; set; }
 
         public string ImageUrl { get; set; }

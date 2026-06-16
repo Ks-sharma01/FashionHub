@@ -242,11 +242,11 @@ namespace Ecommerce.Apis.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet("ProductsPaged")]
-        public async Task<IActionResult> GetProductsPaged(int pageNumber, int pageSize, string search, string filterType)
+        public async Task<IActionResult> GetProductsPaged(int pageNumber = 1,int pageSize = 10, string search = "", string filterType = "All", string category = "All", string status = "All", DateTime? fromDate = null, DateTime? toDate = null)
         {
             try
             {
-                var filteredProducts = await _productService.GetProductsPaged(pageNumber, pageSize, search, filterType);
+                var filteredProducts = await _productService.GetProductsPaged(pageNumber, pageSize, search, filterType, category, status,fromDate, toDate);
                 return Ok(filteredProducts);
             }
             catch (Exception ex)

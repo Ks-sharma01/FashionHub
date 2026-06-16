@@ -50,7 +50,6 @@ namespace Ecommerce.Infrastructure.Repositories.Product
                 cmd.Parameters.Add(new SqlParameter("@Category", product.Category));
                 cmd.Parameters.Add(new SqlParameter("@Subcategory", product.Subcategory));
                 cmd.Parameters.Add(new SqlParameter("@Prize", product.Prize));
-                cmd.Parameters.Add(new SqlParameter("@IsAvailable", product.IsAvailable));
                 cmd.Parameters.Add(new SqlParameter("@Stock", product.Stock));
                 cmd.Parameters.Add(new SqlParameter("@ImageUrl", product.ImageUrl));
 
@@ -465,7 +464,7 @@ namespace Ecommerce.Infrastructure.Repositories.Product
             return result;
         }
 
-        public async Task<List<ProductDto>> GetProductsPaged(int pageNumber, int pageSize, string search, string filterType)
+        public async Task<List<ProductDto>> GetProductsPaged(int pageNumber = 1, int pageSize = 10, string search = "", string filterType = "All", string category = "All", string status = "All", DateTime? fromDate = null, DateTime? toDate = null)
         {
             List<ProductDto> products = new List<ProductDto>();
 
@@ -477,8 +476,12 @@ namespace Ecommerce.Infrastructure.Repositories.Product
 
                 cmd.Parameters.AddWithValue("@PageNumber", pageNumber);
                 cmd.Parameters.AddWithValue("@PageSize", pageSize);
-                cmd.Parameters.AddWithValue("@Search", string.IsNullOrEmpty(search) ? null : search);
+                cmd.Parameters.AddWithValue("@Search", string.IsNullOrEmpty(search) ? "" : search);
                 cmd.Parameters.AddWithValue("@FilterType", filterType);
+                cmd.Parameters.AddWithValue("@Category", category);
+                cmd.Parameters.AddWithValue("@Status", status);
+                cmd.Parameters.AddWithValue("@FromDate", fromDate);
+                cmd.Parameters.AddWithValue("@ToDate", toDate);
 
 
                 SqlDataReader reader = await cmd.ExecuteReaderAsync();
@@ -487,12 +490,20 @@ namespace Ecommerce.Infrastructure.Repositories.Product
                 {
                     products.Add(new ProductDto
                     {
-                        Id = Convert.ToInt32(reader["ProductId"]),
-                        Name = reader["ProductName"].ToString(),
+                        Id = Convert.ToInt32(reader["Id"]),
+                        Name = reader["Name"].ToString(),
                         Prize = Convert.ToDecimal(reader["Prize"]),
                         Stock = Convert.ToInt32(reader["Stock"]),
                         Category = reader["Category"].ToString(),
-                        ImageUrl = reader["Image"].ToString(),
+                        ImageUrl = reader["ImageUrl"].ToString(),
+                        Status = reader["Status"].ToString(),
+                        OrderDate = reader["OrderedDate"] == DBNull.Value
+                        ? DateTime.MinValue
+                        : Convert.ToDateTime(reader["OrderedDate"]),
+                                            DeliveredDate = reader["DeliveredOn"] == DBNull.Value
+                        ? DateTime.MinValue
+                        : Convert.ToDateTime(reader["DeliveredOn"]),
+                        PaymentMethod = reader["PaymentMethod"].ToString(),
                         TotalRecords = Convert.ToInt32(reader["TotalRecords"])
                     });
                 }

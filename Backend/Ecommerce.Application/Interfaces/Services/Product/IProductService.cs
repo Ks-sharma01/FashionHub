@@ -23,6 +23,6 @@ namespace Ecommerce.Application.Interfaces.Services.Product
         Task<List<OrdersWithItemsDto>> GetOrdersWithItems();
         Task ChangeOrderStatus(int userId, int orderId, string status);
         Task<bool> CancelOrder(int orderId);
-        Task<List<ProductDto>> GetProductsPaged(int pageNumber, int pageSize, string search, string filterType);
+        Task<List<ProductDto>> GetProductsPaged(int pageNumber = 1, int pageSize = 10, string search = "", string filterType = "All", string category = "All", string status = "All", DateTime? fromDate = null, DateTime? toDate = null);
     }
 }

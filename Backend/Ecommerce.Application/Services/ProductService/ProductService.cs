@@ -224,11 +224,11 @@ namespace Ecommerce.Application.Services.ProductService
             }
         }
 
-        public async Task<List<ProductDto>> GetProductsPaged(int pageNumber, int pageSize, string search, string filterType)
+        public async Task<List<ProductDto>> GetProductsPaged(int pageNumber = 1, int pageSize = 10, string search = "", string filterType = "All", string category = "All", string status = "All", DateTime? fromDate = null, DateTime? toDate = null)
         {
             try
             {
-                return await _productRepo.GetProductsPaged(pageNumber, pageSize, search, filterType);
+                return await _productRepo.GetProductsPaged(pageNumber, pageSize, search, filterType, category, status, fromDate, toDate);
             }
             catch( Exception )
             {
