@@ -202,6 +202,8 @@
     <Compile Include="Interfaces\Repositories\User\IUserRepo.cs" />
     <Compile Include="Interfaces\Services\Auth\IAuthService.cs" />
     <Compile Include="Interfaces\Services\Email\IEmailService.cs" />
+    <Compile Include="Interfaces\Services\IExportExcel\IExportExcel.cs" />
+    <Compile Include="Interfaces\Services\IExportPdf\IExportPdf.cs" />
     <Compile Include="Interfaces\Services\Jwt\IJwtService.cs" />
     <Compile Include="Interfaces\Services\Otp\IOtpService.cs" />
     <Compile Include="Interfaces\Services\Product\IProductService.cs" />

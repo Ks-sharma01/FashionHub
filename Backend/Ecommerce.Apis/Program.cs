@@ -2,6 +2,8 @@ using Ecommerce.Application.Interfaces.Repositories.Auth;
 using Ecommerce.Application.Interfaces.Repositories.Product;
 using Ecommerce.Application.Interfaces.Services.Auth;
 using Ecommerce.Application.Interfaces.Services.Email;
+using Ecommerce.Application.Interfaces.Services.IExportExcel;
+using Ecommerce.Application.Interfaces.Services.IExportPdf;
 using Ecommerce.Application.Interfaces.Services.Jwt;
 using Ecommerce.Application.Interfaces.Services.Otp;
 using Ecommerce.Application.Interfaces.Services.Product;
@@ -12,6 +14,8 @@ using Ecommerce.Application.Services.EmailService;
 using Ecommerce.Application.Services.OtpService;
 using Ecommerce.Application.Services.ProductService;
 using Ecommerce.Application.Services.UserService;
+using Ecommerce.Infrastructure.ExternalSevices.ExcelExport;
+using Ecommerce.Infrastructure.ExternalSevices.PdfExport;
 using Ecommerce.Infrastructure.Repositories.Auth;
 using Ecommerce.Infrastructure.Repositories.Product;
 using Ecommerce.Infrastructure.Repositories.User;
@@ -19,6 +23,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
+using QuestPDF.Infrastructure;
+
+QuestPDF.Settings.License = LicenseType.Community;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -73,6 +80,8 @@ builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAuthRepo, AuthRepo>();
 builder.Services.AddScoped<IOtpService, OtpService>();
+builder.Services.AddScoped<IExportExcel, ExcelExportService>();
+builder.Services.AddScoped<IExportPdf, PdfExportService>();
 
 var app = builder.Build();
 
